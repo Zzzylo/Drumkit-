@@ -1,6 +1,6 @@
 # PERSONAL DRUMKIT PROJECT
 
-This project is made by doing the 30 days Javascript Challenge of [Javascript30](https://javascript30.com/)
+This project was made by completing Day 1 of the [30 Days JavaScript Challenge](https://javascript30.com/).
 
 ## Table of contents
 
@@ -21,17 +21,23 @@ This project is made by doing the 30 days Javascript Challenge of [Javascript30]
 
 ### Links
 
-= Live Site: [Here](https://zzzylo.github.io/Drumkit-/)
+- Live Site: [Here](https://zzzylo.github.io/Drumkit-/)
 
 ## My process
 
-This is my very first JS project. It was confusing at first but luckily, I am already familiar with using the fundamentals such as functions, objects, and variables. First, I made an eventListener to listen for key press using 'keydown'.
+This is my very first JavaScript project. It was confusing at first, but I was already familiar with the fundamentals — functions, objects, and variables — so I had a starting point to build from.
+
+**1. Listening for key presses**
+
+I started with an event listener on the `window` to detect when a key is pressed, using the `keydown` event.
 
 ```js
 window.addEventListener("keydown", play);
 ```
 
-Then, I put a function named "play" as a parameter to process the logic. In this function, each audio element is assigned in the variable audio. To specify which audio element is being selected, I used the attribute selector in css and inside that, selected each by the keycode. The same applies to the key variable. I assigned each divs with the class key to the key variable. the audio.currentTime = 0 resets audio each time this event is trigerred and then played. Finally, I added a class called playing in order for the transition effect to apply.
+**2. Matching the key to its sound**
+
+The `play` function handles the actual logic. Each `<audio>` element and each `.key` div has a matching `data-key` attribute set to a keycode. I used an attribute selector in the query to find the exact audio and div that match whichever key was pressed. Before playing, `audio.currentTime = 0` resets the sound to the beginning — this makes sure that pressing the same key rapidly always restarts the sound instead of overlapping or ignoring the press. Finally, I add a `"playing"` class to the matching div, which triggers a CSS transition for the visual press effect.
 
 ```js
 function play(e) {
@@ -43,20 +49,21 @@ function play(e) {
 }
 ```
 
-After that, in the global scope, I put a variable to store the divs with the class of key in a single nodelist in order to use forEach method so an eventlistener called "transitionend" could apply to each of them.
+**3. Cleaning up after the animation**
+
+Adding the `"playing"` class is only half the job — if it's never removed, the animation won't replay on the next press. So in the global scope, I selected all `.key` divs into a single NodeList and used `forEach` to attach a `transitionend` listener to each one.
 
 ```js
 const keys = document.querySelectorAll(".key");
 keys.forEach((key) => key.addEventListener("transitionend", removeTransition));
 ```
 
-then proceeded to make the function that removes the class playing in each of the divs with key class after the css transition ends.
+Then I wrote the `removeTransition` function, which removes the `"playing"` class once the CSS transition finishes.
 
 ```js
 function removeTransition(e) {
   if (e.propertyName !== "transform") return;
   this.classList.remove("playing");
-  console.log(e);
 }
 ```
 
@@ -64,15 +71,22 @@ function removeTransition(e) {
 
 - HTML5 markup
 - CSS custom properties
-- Flexbox
+- Flexbox / Grid
 - Plain JavaScript
 
 ### What I learned
 
+This project taught me how JavaScript actually connects to the DOM in practice, rather than in isolated exercises:
+
+- **`data-*` attributes** are custom attributes I can define myself, and are best used for storing structured _data_ (like an ID) rather than styling — as opposed to `class`, which is meant for grouping elements for CSS/JS styling purposes.
+- **Dot notation** always means the same thing — accessing a property on an object — regardless of whether that property holds a plain value or a function. Methods (like `.play()` or `.classList.add()`) are just properties whose value happens to be a function.
+- **HTML elements are objects**, and different tags come with different built-in methods depending on what "type" of element they are. An `<audio>` element gets `.play()` and `.currentTime` because it's a media element, while a `<h2>` does not — because those methods live on `HTMLMediaElement`, not the shared `HTMLElement` base that all tags inherit from.
+- **The prototype chain** is the mechanism behind this: if JavaScript can't find a property directly on an object, it looks up through that object's "parent" blueprints until it finds it or runs out.
+- **`transitionend`** fires automatically once a CSS transition finishes, and fires once _per property_ if multiple properties are transitioning at once. Checking `e.propertyName` prevents the cleanup logic from running multiple times unnecessarily.
+
 ### AI Collaboration
 
-- Claude
-- As a guide to proper page layout
+- Used **Claude** as a guide throughout this project — asking questions about _why_ the code worked the way it did (data attributes vs. classes, prototype chains, event objects) rather than just copying the solution, and for help structuring the page layout.
 
 ## Author
 
