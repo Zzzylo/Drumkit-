@@ -17,7 +17,7 @@ This project was made by completing Day 1 of the [30 Days JavaScript Challenge](
 
 ### Screenshot
 
-![Site](DrumKitSite.png)
+![Site](DrumkitSite.png)
 
 ### Links
 
