@@ -1,0 +1,47 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: monospace;
+  background-color: #f8eaea;
+  display: flex;
+  justify-content: center;
+  height: 100dvh;
+  height: 100vh;
+}
+.keys {
+  padding: 5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.key {
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.07s;
+  line-height: 2.5;
+  width: 15rem;
+  border: 6px solid black;
+  border-radius: 100%;
+  background: linear-gradient(to bottom, #ffffff, #ffffff);
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+.playing {
+  transform: scale(1.1);
+}
+kbd {
+  display: block;
+  font-size: 2rem;
+  color: rgb(0, 0, 0);
+}
+.sound {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgb(210, 180, 8);
+  letter-spacing: 0.1rem;
+}
